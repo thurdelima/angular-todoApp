@@ -1,26 +1,42 @@
-<h1>Nossos empregados</h1>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Salário</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let employee of employeeService.employees">
-      <td>{{ employee.name }}</td>
-      <td [style.color]="getSalaryColor(employee)">{{ employee.salary }}</td>
+<div class="container">
+  <app-alert-success [hidden]="!showMessageSuccess">
+    Empregado <strong> {{ employee?.name }} </strong>cadastrado com sucesso!
+  </app-alert-success>
 
-      <!-- <td [style.color]="getSalaryColor(employee)">{{employee.salary}}</td> -->
+  <div class="row">
+    <h1>Nossos empregados</h1>
+    <p salaryColor></p>
+    <table class="table">
+      <thead>
+        <tr>
+          <td colspan="3">
+            <button class="btn btn-primary" (click)="openNewModal()">
+              Novo empregado
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <th>Nome</th>
+          <th>Salário</th>
+          <th>Bônus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employeeService.employees">
+          <td [innerHtml]="employee.name"></td>
+          <td
+            [innerHtml]="employee.salary"
+            salaryColor="{{ employee.salary }}"
+          ></td>
+          <td>{{ employee.bonus }}</td>
 
-      <td
-        [ngClass]="{
-          'salary-expensive': employee.salary > 20000,
-          'salary-cheap': employee.salary < 1000
-        }"
-      >
-        {{ employee.salary }}
-      </td>
-    </tr>
-  </tbody>
-</table>
+          <!-- <td [style.color]="getSalaryColor(employee)">{{employee.salary}}</td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-employee-new-modal
+  (onSubmit)="onNewEmployee($event)"
+></app-employee-new-modal>
